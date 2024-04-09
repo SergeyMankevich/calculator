@@ -2,45 +2,56 @@ import { useState } from 'react';
 import styles from './app.module.css';
 
 export const App = () => {
-	const data = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
-	const [numbers] = useState(data);
-	const [inputValue, setInputValue] = useState('');
+	const nums = [7, 8, 9, 4, 5, 6, 1, 2, 3, 0];
+	const [operand1, setOperand1] = useState('');
+	const [operand2, setOperand2] = useState('');
+	const [operator, setOperator] = useState('');
 	const [isEqualPressed, setIsEqualPressed] = useState(false); // для отображение стилей, при выводе результата
 
-	const reset = () => {
-		setInputValue('');
-		setIsEqualPressed(false);
+	const digits = (event) => {
+		const number = event.target.textContent;
+		operator ? setOperand2(operand2 + number) : setOperand1(operand1 + number);
 	};
 
-	const sum = () => operation('+');
-	const minus = () => operation('-');
-
-	const operation = (operator) => {
-		const lastChar = inputValue.slice(-1);
-		if (isNaN(Number(lastChar))) {
-			// чтобы нельзя было поставить много + или -, и возможно было заменить один знак на другой
-			setInputValue(inputValue.slice(0, -1) + operator);
-			setIsEqualPressed(false);
-		} else {
-			setInputValue(inputValue + operator);
-		}
-	};
-	const findResult = () => {
-		if (inputValue.length === 1 && isNaN(Number(inputValue[0]))) {
-			// если в строке ввода, тольк знак операции
-			reset();
-			return;
-		}
-		if (inputValue) {
-			let lastChar = inputValue.slice(-1);
-			let res;
-			if (isNaN(parseInt(lastChar))) {
-				res = eval(inputValue.slice(0, -1));
-			} else {
-				res = eval(inputValue);
+	const operations = (event) => {
+		const currentBtn = event.target;
+		const operation = currentBtn.textContent;
+		switch (operation) {
+			case 'c': {
+				setOperand1('');
+				setOperator('');
+				setOperand2('');
+				setIsEqualPressed(false);
+				break;
 			}
-			setInputValue(res.toString());
-			setIsEqualPressed(true);
+
+			case '+': {
+				setOperator('+');
+				setIsEqualPressed(false);
+				break;
+			}
+
+			case '-': {
+				setOperator('-');
+				setIsEqualPressed(false);
+				break;
+			}
+
+			case '=': {
+				let result = +operand1 + +operand2;
+
+				if (operator === '-') {
+					result = +operand1 - +operand2;
+				}
+				setOperand1(result);
+				setOperator('');
+				setOperand2('');
+				setIsEqualPressed(true);
+				break;
+			}
+
+			default:
+				break;
 		}
 	};
 
@@ -49,35 +60,23 @@ export const App = () => {
 			<div
 				className={`${styles.inputResult} ${isEqualPressed ? styles.resultColor : ''}`}
 			>
-				{inputValue}
+				{operand1}
+				{operator}
+				{operand2}
 			</div>
 			<div className={styles.mainContent}>
 				<div className={styles.digitContainer}>
-					{numbers.map((digit, index) => (
-						<button
-							key={index}
-							className={styles.digit}
-							onClick={() => {
-								setInputValue(inputValue + String(digit));
-							}}
-						>
+					{nums.map((digit) => (
+						<button key={digit} className={styles.digit} onClick={digits}>
 							{digit}
 						</button>
 					))}
 				</div>
-				<div className={styles.functionContainer}>
-					<button className={styles.func} onClick={reset}>
-						c
-					</button>
-					<button className={styles.func} onClick={sum}>
-						+
-					</button>
-					<button className={styles.func} onClick={minus}>
-						-
-					</button>
-					<button className={styles.func} onClick={findResult}>
-						=
-					</button>
+				<div className={styles.functionContainer} onClick={operations}>
+					<button className={styles.func}>c</button>
+					<button className={styles.func}>+</button>
+					<button className={styles.func}>-</button>
+					<button className={styles.func}>=</button>
 				</div>
 			</div>
 		</div>
