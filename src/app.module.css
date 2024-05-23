@@ -1,48 +1,47 @@
 .container {
-	margin: 5px;
-	height: 300px;
-	width: 400px;
-	justify-items: center;
-	justify-content: center;
-	background-color: black;
-	border: 5px solid black;
+	width: 633px;
+	padding: 20px;
+	font-size: 40px;
+	color: white;
+	background-color: #282c34;
 }
 
-.inputResult {
-	height: 20%;
-	margin: 1px;
-	background-color: rgb(213, 212, 212);
-	font-size: xx-large;
+.screen {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 120px;
+	padding: 0 10px;
 }
 
 .resultColor {
-	color: rgb(143, 28, 99);
+	color: blue;
 }
 
-.mainContent {
-	height: 80%;
+.buttons {
 	display: flex;
-	background-color: rgb(213, 212, 212);
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
-.digitContainer {
-	width: 75%;
+.buttonsGroupLeft {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
-.digit {
-	width: 33.3%;
-	height: 25%;
-	font-size: xx-large;
+.buttonsGroupRight {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
 }
 
-.functionContainer {
-	width: 25%;
-	display: block;
-}
-
-.func {
-	width: 100%;
-	height: 25%;
-	background-color: rgb(130, 129, 128);
-	font-size: xx-large;
+.button {
+	display: flex;
+	flex-grow: 1;
+	justify-content: center;
+	align-items: center;
+	flex-basis: 120px;
+	margin: 5px;
+	font-size: 40px;
 }
